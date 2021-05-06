@@ -16,8 +16,7 @@
     "react": "^17.0.1",
     "react-content-loader": "^6.0.3",
     "react-dom": "^17.0.1",
-    "react-query": "^3.13.11",
-    "react-spring": "^9.1.2"
+    "react-query": "^3.13.11"
   },
   "license": "MIT",
   "devDependencies": {

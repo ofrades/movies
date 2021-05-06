@@ -27,6 +27,7 @@ const globalStyles = global({
 const Random = () => {
   const isFetching = useIsFetching();
   const [searchQuery, setSearchQuery] = useState();
+  const [like, setLike] = useState();
   const [id, setId] = useState(Math.floor(Math.random() * 1000));
   const [arrMovies, setArrMovies] = useState(
     // Get movies array from localStorage
@@ -46,7 +47,7 @@ const Random = () => {
   );
   useEffect(() => {
     setId(Math.floor(Math.random() * 1000));
-  }, []);
+  }, [like]);
 
   globalStyles();
   return (
@@ -66,6 +67,7 @@ const Random = () => {
           <>
             <pre>Title: {queryRandomMovie.data.title}</pre>
             <Drag
+              setLike={setLike}
               img={`https://image.tmdb.org/t/p/w500/${queryRandomMovie.data.poster_path}`}
             />
             <pre>Release Date: {queryRandomMovie.data.release_date}</pre>
