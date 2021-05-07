@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useIsFetching } from "react-query";
-import { getRandomMovies } from "../services/getRandomMovies";
-import { global } from "../stitches.config.js";
-import {
-  Container,
-  Card,
-  Status,
-  ConvertTemp,
-  Celsius,
-  Fahrenheit,
-} from "./styles";
-import Loader from "./Loader";
-import Search from "./Search";
-import ListFavs from "./ListFavs";
-import Drag from "./Drag";
+import { getRandomMovies } from "../../services/getRandomMovies";
+import { global } from "../../stitches.config.js";
+import { Container, Card, Status } from "./styles";
+import Loading from "../Loading";
+import Search from "../Search";
+import Drag from "../Drag";
 
 const globalStyles = global({
   body: {
@@ -62,7 +54,7 @@ const Random = () => {
           isFetching={isFetching}
         />
         {queryRandomMovie.isLoading ? (
-          <Loader />
+          <Loading />
         ) : (
           <>
             <pre>Title: {queryRandomMovie.data.title}</pre>
@@ -72,13 +64,6 @@ const Random = () => {
             />
             <pre>Release Date: {queryRandomMovie.data.release_date}</pre>
             <pre>Vote Average: {queryRandomMovie.data.vote_average}</pre>
-            {arrMovies && (
-              <ListFavs
-                arrMovies={arrMovies}
-                setArrMovies={setArrMovies}
-                setSearchQuery={setSearchQuery}
-              />
-            )}
           </>
         )}
       </Card>

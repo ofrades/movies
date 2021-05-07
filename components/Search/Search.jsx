@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { InputContainer, Input, AddMovie, LoadingIcon } from "./styles";
+import { InputContainer, Input, AddMovie, LoadingIcon } from "./styles.js";
 
 const Search = ({ setArrMovies, setSearchQuery, isFetching }) => {
   const [movieFromInput, setMovieFromInput] = useState();

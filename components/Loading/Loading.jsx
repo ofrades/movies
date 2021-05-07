@@ -1,21 +1,8 @@
-import { styled } from "../stitches.config";
 import React from "react";
 import ContentLoader, { Instagram, BulletList } from "react-content-loader";
+import { Container } from "./styles";
 
-const Container = styled("div", {
-  display: "flex",
-  backgroundColor: "$light",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  "& svg": {
-    padding: "2rem",
-  },
-  "& span": { display: "flex", width: "100%" },
-  "& canvas": {},
-});
-
-const Loader = (props) => (
+const Loading = (props) => (
   <Container>
     <ContentLoader
       speed={2}
@@ -38,4 +25,4 @@ const Loader = (props) => (
   </Container>
 );
 
-export default Loader;
+export default Loading;
