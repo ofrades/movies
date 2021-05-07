@@ -1,22 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { List, AddButton, RemoveButton } from "./styles";
 
-const ListFavs = ({ arrMovies, setArrMovies, setSearchQuery }) => {
-  const showMovie = (item) => {
-    setSearchQuery(item);
+const Likes = () => {
+  const showMovie = () => {
+    // show selected movie
   };
 
-  const removeMovie = (item) => {
-    setArrMovies(arrMovies.filter((movie) => movie !== item));
+  const removeMovie = () => {
+    // remove movie from likes list
   };
-
-  useEffect(() => {
-    localStorage.setItem("movies", JSON.stringify(arrMovies));
-  }, [arrMovies]);
 
   return (
     <List>
-      {arrMovies.map((item, i) => (
+      {["a", "b"]?.map((item, i) => (
         <div key={i}>
           <AddButton title="Show movie" onClick={() => showMovie(item)}>
             {item}
@@ -30,4 +26,4 @@ const ListFavs = ({ arrMovies, setArrMovies, setSearchQuery }) => {
   );
 };
 
-export default ListFavs;
+export default Likes;
