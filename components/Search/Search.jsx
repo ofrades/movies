@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { InputContainer, Input, AddMovie, LoadingIcon } from "./styles.js";
 
-const Search = ({ setArrMovies, setSearchQuery, isFetching }) => {
+const Search = ({ setSearchQuery, isFetching }) => {
   const [movieFromInput, setMovieFromInput] = useState();
 
   const handleInput = (e) => {
     setMovieFromInput(e.target.value);
-  };
-
-  const addMovie = () => {
-    setArrMovies((oldArr) =>
-      oldArr.includes(movieFromInput)
-        ? [...oldArr]
-        : [...oldArr, movieFromInput]
-    );
   };
 
   useEffect(() => {
@@ -31,13 +23,13 @@ const Search = ({ setArrMovies, setSearchQuery, isFetching }) => {
         placeholder="Search..."
         value={movieFromInput}
         type="text"
-        onChange={handleInput}
         aria-label="Search"
+        onChange={handleInput}
         aria-required="true"
         autoFocus
       />
 
-      <AddMovie onClick={() => addMovie()}>
+      <AddMovie>
         {isFetching !== 0 ? (
           <a>
             <LoadingIcon>⏳</LoadingIcon>

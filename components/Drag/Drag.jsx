@@ -1,7 +1,7 @@
 import React from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
-const Drag = ({ img, setLike }) => {
+const Drag = ({ img, handleLike, handleDislike }) => {
   const x = useMotionValue(0);
   const tickPath = useTransform(x, [10, 100], [0, 1]);
   const crossPathA = useTransform(x, [-10, -55], [0, 1]);
@@ -36,12 +36,11 @@ const Drag = ({ img, setLike }) => {
           console.log(x.current);
           if (x.current > 25) {
             console.log("Like!");
-            //setCorrectWords(add(correctWords, color));
-            setLike(true);
+            handleLike();
           }
           if (x.current < -25) {
             console.log("Dislike!");
-            setLike(false);
+            handleDislike();
           }
         }}
       >

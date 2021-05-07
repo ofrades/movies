@@ -1,7 +1,9 @@
 import React from "react";
 import { List, AddButton, RemoveButton } from "./styles";
+import { useSelector } from "react-redux";
 
 const Dislikes = () => {
+  const dislikesIds = useSelector((state) => state.dislikes);
   const showMovie = () => {
     // show selected movie
   };
@@ -12,7 +14,7 @@ const Dislikes = () => {
 
   return (
     <List>
-      {["a", "b"]?.map((item, i) => (
+      {dislikesIds?.map((item, i) => (
         <div key={i}>
           <AddButton title="Show movie" onClick={() => showMovie(item)}>
             {item}

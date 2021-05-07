@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useIsFetching } from "react-query";
+import { getMovie } from "../../services/getMovie";
 import { getRandomMovies } from "../../services/getRandomMovies";
 import { global } from "../../stitches.config.js";
+import { useDispatch, useSelector } from "react-redux";
+import { addLike } from "../Likes/likesSlice";
+import { addDislike } from "../Dislikes/dislikesSlice";
 import { Container, Card, Status } from "./styles";
 import Loading from "../Loading";
 import Search from "../Search";
@@ -18,28 +22,45 @@ const globalStyles = global({
 
 const Random = () => {
   const isFetching = useIsFetching();
+  const [movie, setMovie] = useState();
   const [searchQuery, setSearchQuery] = useState();
-  const [like, setLike] = useState();
   const [id, setId] = useState(Math.floor(Math.random() * 1000));
-  const [arrMovies, setArrMovies] = useState(
-    // Get movies array from localStorage
-    typeof window !== "undefined"
-      ? localStorage.getItem("movies") !== null
-        ? JSON.parse(localStorage.getItem("movies"))
-        : []
-      : []
-  );
+
+  const likes = useSelector((state) => state.likes);
+  const dislikes = useSelector((state) => state.dislikes);
+
+  const dispatch = useDispatch();
 
   const queryRandomMovie = useQuery(
     ["random", id],
     async () => await getRandomMovies(id),
     {
       refetchOnWindowFocus: false,
+      onSuccess: (e) => {
+        setMovie(e);
+      },
     }
   );
-  useEffect(() => {
+  const queryMovie = useQuery(
+    ["movie", searchQuery],
+    async () => await getMovie(searchQuery),
+    {
+      enabled: false,
+      refetchOnWindowFocus: false,
+      onSuccess: (e) => {
+        setMovie(e);
+      },
+    }
+  );
+  const handleLike = () => {
+    dispatch(addLike(movie.id));
     setId(Math.floor(Math.random() * 1000));
-  }, [like]);
+  };
+
+  const handleDislike = () => {
+    dispatch(addDislike(movie.id));
+    setId(Math.floor(Math.random() * 1000));
+  };
 
   globalStyles();
   return (
@@ -48,22 +69,19 @@ const Random = () => {
         <Status status={queryRandomMovie.status}>
           {queryRandomMovie.isError && <p>{searchQuery} error fetching...</p>}
         </Status>
-        <Search
-          setArrMovies={setArrMovies}
-          setSearchQuery={setSearchQuery}
-          isFetching={isFetching}
-        />
+        <Search setSearchQuery={setSearchQuery} isFetching={isFetching} />
         {queryRandomMovie.isLoading ? (
           <Loading />
         ) : (
           <>
-            <pre>Title: {queryRandomMovie.data.title}</pre>
+            <pre>Title: {movie.title}</pre>
             <Drag
-              setLike={setLike}
-              img={`https://image.tmdb.org/t/p/w500/${queryRandomMovie.data.poster_path}`}
+              handleDislike={handleDislike}
+              handleLike={handleLike}
+              img={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
             />
-            <pre>Release Date: {queryRandomMovie.data.release_date}</pre>
-            <pre>Vote Average: {queryRandomMovie.data.vote_average}</pre>
+            <pre>Release Date: {movie.release_date}</pre>
+            <pre>Vote Average: {movie.vote_average}</pre>
           </>
         )}
       </Card>
