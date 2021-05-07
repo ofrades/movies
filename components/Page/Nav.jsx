@@ -1,5 +1,6 @@
+import React from "react";
 import { styled } from "../../stitches.config.js";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Container = styled("nav", {
   gridArea: "nav",
@@ -28,12 +29,17 @@ const Button = styled("button", {
 });
 
 const Nav = () => {
-  const router = useRouter();
   return (
     <Container>
-      <Button onClick={() => router.push("/")}>Home</Button>
-      <Button onClick={() => router.push("/likes")}>Likes</Button>
-      <Button onClick={() => router.push("/dislikes")}>Dislikes</Button>
+      <Link href="/">
+        <Button>Home</Button>
+      </Link>
+      <Link href="/likes">
+        <Button>Likes</Button>
+      </Link>
+      <Link href="/dislikes">
+        <Button>Dislikes</Button>
+      </Link>
     </Container>
   );
 };
