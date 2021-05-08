@@ -8,7 +8,7 @@ const initialState =
     : [];
 
 const dislikesSlice = createSlice({
-  name: "likes",
+  name: "dislikes",
   initialState,
   reducers: {
     addDislike: {
@@ -17,8 +17,12 @@ const dislikesSlice = createSlice({
         localStorage.setItem("dislikes", JSON.stringify(state));
       },
     },
-    removeDislike(state, action) {
-      return state.filter((id) => id !== action.payload);
+    removeDislike: {
+      reducer: (state, action) => {
+        const items = state.filter((item) => item.id != action.payload.id);
+        localStorage.setItem("dislikes", JSON.stringify(items));
+        return items;
+      },
     },
   },
 });

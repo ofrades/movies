@@ -17,8 +17,12 @@ const likesSlice = createSlice({
         localStorage.setItem("likes", JSON.stringify(state));
       },
     },
-    removeLike(state, action) {
-      return state.filter((id) => id !== action.payload);
+    removeLike: {
+      reducer: (state, action) => {
+        const items = state.filter((like) => like.id !== action.payload.id);
+        localStorage.setItem("likes", JSON.stringify(items));
+        return items;
+      },
     },
   },
 });

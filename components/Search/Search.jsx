@@ -1,43 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { InputContainer, Input, AddMovie, LoadingIcon } from "./styles.js";
+import React from "react";
+import { getMovies } from "../../services/getMovies";
+import { useDispatch } from "react-redux";
+import { setMovie } from "./movieSlice";
+import { InputContainer, Input } from "./styles.js";
 
-const Search = ({ setSearchQuery, isFetching }) => {
-  const [movieFromInput, setMovieFromInput] = useState();
+const Search = () => {
+  const dispatch = useDispatch();
 
-  const handleInput = (e) => {
-    setMovieFromInput(e.target.value);
+  const handleChange = (value) => {
+    console.log("value", value);
+    dispatch(setMovie(value));
   };
 
-  useEffect(() => {
-    if (movieFromInput?.length > 2) {
-      const delayDebounceFn = setTimeout(() => {
-        setSearchQuery(movieFromInput);
-      }, 1000);
-      return () => clearTimeout(delayDebounceFn);
-    }
-  }, [movieFromInput]);
+  const loadOptions = async (inputValue) => {
+    const response = await getMovies(inputValue);
+    return response.results;
+  };
 
   return (
     <InputContainer>
       <Input
-        placeholder="Search..."
-        value={movieFromInput}
-        type="text"
-        aria-label="Search"
-        onChange={handleInput}
-        aria-required="true"
+        cacheOptions
+        loadOptions={loadOptions}
+        onChange={handleChange}
+        getOptionLabel={(e) => e.title}
+        getOptionValue={(e) => e.id}
         autoFocus
+        placeholder="Search movie..."
       />
-
-      <AddMovie>
-        {isFetching !== 0 ? (
-          <a>
-            <LoadingIcon>⏳</LoadingIcon>
-          </a>
-        ) : (
-          <a title="Add to list">📋</a>
-        )}
-      </AddMovie>
     </InputContainer>
   );
 };

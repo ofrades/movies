@@ -14,6 +14,7 @@ const Drag = ({ img, handleLike, handleDislike }) => {
         justifyContent: "center",
         alignItems: "center",
       }}
+      whileTap={{ scale: 0.9 }}
     >
       <motion.img
         style={{
@@ -33,13 +34,10 @@ const Drag = ({ img, handleLike, handleDislike }) => {
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         onDragEnd={() => {
-          console.log(x.current);
           if (x.current > 25) {
-            console.log("Like!");
             handleLike();
           }
           if (x.current < -25) {
-            console.log("Dislike!");
             handleDislike();
           }
         }}

@@ -1,38 +1,40 @@
 import { styled } from "../../stitches.config";
 
-export const List = styled("div", {
-  padding: "$2",
-  "& div": {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "0.5rem",
-  },
-});
-
-export const AddButton = styled("button", {
+export const Card = styled("card", {
   fontFamily: "$system",
   backgroundColor: "$green700",
   color: "$dark",
   padding: "$1",
   margin: "$1",
   border: "none",
-  width: "100%",
   borderRadius: "$2",
-  "&:hover": {
-    backgroundColor: "$dark",
-    color: "$green700",
-  },
-});
+  display: "grid",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+  gridTemplateAreas: "'title title' 'poster poster' 'remove remove'",
 
-export const RemoveButton = styled("button", {
-  backgroundColor: "$red600",
-  color: "$dark",
-  padding: "$1",
-  margin: "$1",
-  border: "none",
-  borderRadius: "$2",
-  "&:hover": {
-    backgroundColor: "$dark",
-    color: "$red500",
+  "& h3": {
+    gridArea: "title",
+    color: "$yellow500",
+  },
+  "& img": {
+    gridArea: "poster",
+    maxWidth: "100%",
+  },
+  "& span": {
+    gridArea: "date",
+  },
+  "& button": {
+    gridArea: "remove",
+    backgroundColor: "$red600",
+    color: "$dark",
+    padding: "$1",
+    margin: "$1",
+    border: "none",
+    borderRadius: "$2",
+    "&:hover": {
+      backgroundColor: "$dark",
+      color: "$red500",
+    },
   },
 });

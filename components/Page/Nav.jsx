@@ -1,44 +1,30 @@
 import React from "react";
-import { styled } from "../../stitches.config.js";
+import { Container, Button } from "./styles";
 import Link from "next/link";
-
-const Container = styled("nav", {
-  gridArea: "nav",
-  display: "flex",
-  justifyContent: "space-around",
-});
-
-const Button = styled("button", {
-  fontFamily: "$mono",
-  fontWeight: "700",
-  fontSize: "1.25rem",
-  padding: "1rem",
-  width: "100%",
-  backgroundColor: "$grey900",
-  color: "$green500",
-  border: "none",
-  borderBottom: "5px solid $dark",
-  cursor: "pointer",
-  "&:hover": {
-    color: "$green600",
-  },
-  "&:focus": {
-    outline: "0",
-    color: "$yellow500",
-  },
-});
+import { useSelector } from "react-redux";
 
 const Nav = () => {
+  const likesIds = useSelector((state) => state.likes);
+  const dislikesIds = useSelector((state) => state.dislikes);
   return (
     <Container>
       <Link href="/">
-        <Button>Home</Button>
+        <Button>
+          Home
+          <span> 🏠</span>
+        </Button>
       </Link>
       <Link href="/likes">
-        <Button>Likes</Button>
+        <Button>
+          Likes
+          <span> 👍 {likesIds.length}</span>
+        </Button>
       </Link>
       <Link href="/dislikes">
-        <Button>Dislikes</Button>
+        <Button>
+          Dislikes
+          <span> 👎 {dislikesIds.length}</span>
+        </Button>
       </Link>
     </Container>
   );

@@ -1,5 +1,6 @@
 import { styled, keyframes } from "../../stitches.config";
 import { motion } from "framer-motion";
+import AsyncSelect from "react-select/async";
 
 export const InputContainer = styled("div", {
   display: "flex",
@@ -8,17 +9,11 @@ export const InputContainer = styled("div", {
   padding: "0.5rem",
 });
 
-export const Input = styled("input", {
+export const Input = styled(AsyncSelect, {
   width: "100%",
   padding: "$2",
-  height: "2rem",
-  minHeight: "2rem",
   fontWeight: "bold",
-  backgroundColor: "$dark",
-  color: "$green500",
   marginLeft: "1px",
-  border: "none",
-  outline: "none",
   fontFamily: "$system",
   "&:hover": {
     backgroundColor: "$dark",

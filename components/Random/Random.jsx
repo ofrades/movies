@@ -1,34 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useQuery, useIsFetching } from "react-query";
-import { getMovie } from "../../services/getMovie";
 import { getRandomMovies } from "../../services/getRandomMovies";
-import { global } from "../../stitches.config.js";
 import { useDispatch, useSelector } from "react-redux";
 import { addLike } from "../Likes/likesSlice";
 import { addDislike } from "../Dislikes/dislikesSlice";
-import { Container, Card, Status } from "./styles";
+import { setMovie } from "../Search/movieSlice";
+import { Status, Container } from "./styles";
 import Loading from "../Loading";
-import Search from "../Search";
 import Drag from "../Drag";
-
-const globalStyles = global({
-  body: {
-    margin: 0,
-    backgroundColor: "$grey800",
-    color: "$grey100",
-    fontFamily: "$mono",
-  },
-});
+import { motion } from "framer-motion";
 
 const Random = () => {
   const isFetching = useIsFetching();
-  const [movie, setMovie] = useState();
-  const [searchQuery, setSearchQuery] = useState();
-  const [id, setId] = useState(Math.floor(Math.random() * 1000));
-
-  const likes = useSelector((state) => state.likes);
-  const dislikes = useSelector((state) => state.dislikes);
-
+  const movie = useSelector((state) => state.movie);
+  const [id, setId] = useState(
+    movie.id ? movie.id : Math.floor(Math.random() * 1000)
+  );
   const dispatch = useDispatch();
 
   const queryRandomMovie = useQuery(
@@ -37,55 +24,44 @@ const Random = () => {
     {
       refetchOnWindowFocus: false,
       onSuccess: (e) => {
-        setMovie(e);
-      },
-    }
-  );
-  const queryMovie = useQuery(
-    ["movie", searchQuery],
-    async () => await getMovie(searchQuery),
-    {
-      enabled: false,
-      refetchOnWindowFocus: false,
-      onSuccess: (e) => {
-        setMovie(e);
+        dispatch(setMovie(e));
       },
     }
   );
   const handleLike = () => {
-    dispatch(addLike(movie.id));
+    dispatch(addLike(movie));
     setId(Math.floor(Math.random() * 1000));
   };
 
   const handleDislike = () => {
-    dispatch(addDislike(movie.id));
+    dispatch(addDislike(movie));
     setId(Math.floor(Math.random() * 1000));
   };
 
-  globalStyles();
   return (
-    <Container>
-      <Card initial={{ scale: 0 }} animate={{ scale: 1 }}>
-        <Status status={queryRandomMovie.status}>
-          {queryRandomMovie.isError && <p>{searchQuery} error fetching...</p>}
-        </Status>
-        <Search setSearchQuery={setSearchQuery} isFetching={isFetching} />
-        {queryRandomMovie.isLoading ? (
-          <Loading />
-        ) : (
-          <>
-            <pre>Title: {movie.title}</pre>
-            <Drag
-              handleDislike={handleDislike}
-              handleLike={handleLike}
-              img={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-            />
-            <pre>Release Date: {movie.release_date}</pre>
-            <pre>Vote Average: {movie.vote_average}</pre>
-          </>
-        )}
-      </Card>
-    </Container>
+    <>
+      <Status status={queryRandomMovie.status}>
+        {queryRandomMovie.isError && <p>Error fetching...</p>}
+      </Status>
+      {queryRandomMovie.isLoading ? (
+        <Loading />
+      ) : (
+        <Container>
+          <motion.h1 whileHover={{ scale: 1.1 }}>🍿 {movie.title}</motion.h1>
+          <Drag
+            handleDislike={handleDislike}
+            handleLike={handleLike}
+            img={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+          />
+          <motion.h5 whileHover={{ scale: 1.1 }}>
+            📅 {movie.release_date}
+          </motion.h5>
+          <motion.h6 whileHover={{ scale: 1.1 }}>
+            ⭐ {movie.vote_average}
+          </motion.h6>
+        </Container>
+      )}
+    </>
   );
 };
 

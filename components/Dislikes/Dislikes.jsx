@@ -1,30 +1,34 @@
 import React from "react";
-import { List, AddButton, RemoveButton } from "./styles";
-import { useSelector } from "react-redux";
+import { Card } from "./styles";
+import { useDispatch, useSelector } from "react-redux";
+import { removeDislike } from "./dislikesSlice";
 
 const Dislikes = () => {
-  const dislikesIds = useSelector((state) => state.dislikes);
-  const showMovie = () => {
-    // show selected movie
-  };
+  const dislikes = useSelector((state) => state.dislikes);
+  const dispatch = useDispatch();
 
-  const removeMovie = () => {
-    // remove movie from likes list
+  const removeMovie = (item) => {
+    dispatch(removeDislike(item));
   };
 
   return (
-    <List>
-      {dislikesIds?.map((item, i) => (
-        <div key={i}>
-          <AddButton title="Show movie" onClick={() => showMovie(item)}>
-            {item}
-          </AddButton>
-          <RemoveButton title="Remove movie" onClick={() => removeMovie(item)}>
-            🗑️
-          </RemoveButton>
-        </div>
-      ))}
-    </List>
+    <>
+      {dislikes.length ? (
+        dislikes.map((item, i) => (
+          <Card key={i} title="Show movie">
+            <h3>{item.title}</h3>
+            <img src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} />
+            <button title="Remove movie" onClick={() => removeMovie(item)}>
+              Remove 🗑️
+            </button>
+          </Card>
+        ))
+      ) : (
+        <Card title="Show movie">
+          <h3>No dislikes yet</h3>
+        </Card>
+      )}
+    </>
   );
 };
 
