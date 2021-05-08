@@ -17,11 +17,6 @@ const Loading = (props) => (
       <rect x="50" y="200" rx="5" ry="5" width="200" height="9" />
       <rect x="0" y="250" rx="5" ry="5" width="300" height="100" />
     </ContentLoader>
-    <span>
-      <Instagram />
-      <Instagram />
-    </span>
-    <BulletList />
   </Container>
 );
 
