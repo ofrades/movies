@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Button } from "./styles";
+import { NavContainer, NavButton } from "./styles";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
@@ -7,26 +7,26 @@ const Nav = () => {
   const likesIds = useSelector((state) => state.likes);
   const dislikesIds = useSelector((state) => state.dislikes);
   return (
-    <Container>
+    <NavContainer>
       <Link href="/">
-        <Button>
+        <NavButton>
           Home
           <span> 🏠</span>
-        </Button>
+        </NavButton>
       </Link>
       <Link href="/likes">
-        <Button>
+        <NavButton>
           Likes
           <span> 👍 {likesIds.length}</span>
-        </Button>
+        </NavButton>
       </Link>
       <Link href="/dislikes">
-        <Button>
+        <NavButton>
           Dislikes
           <span> 👎 {dislikesIds.length}</span>
-        </Button>
+        </NavButton>
       </Link>
-    </Container>
+    </NavContainer>
   );
 };
 

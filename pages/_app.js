@@ -4,7 +4,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Provider } from "react-redux";
 import store from "../store";
-import { Container, Card, Status } from "./styles";
+import { Container, Card } from "../components/Page/styles";
 import Nav from "../components/Page";
 import Search from "../components/Search";
 import { global } from "../stitches.config.js";
