@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
 const Drag = ({ img, handleLike, handleDislike }) => {
@@ -7,11 +7,12 @@ const Drag = ({ img, handleLike, handleDislike }) => {
   const dislike = useTransform(x, [-10, -100], [0, 1]);
 
   return (
-    <motion.div
+    <div
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        height: "50vh",
         cursor: "move",
       }}
     >
@@ -20,14 +21,12 @@ const Drag = ({ img, handleLike, handleDislike }) => {
           x,
           maxWidth: "80%",
           maxHeight: "50%",
+          margin: "auto",
+          display: "block",
           position: "absolute",
         }}
         src={img}
         drag="x"
-        whileTap={{ scale: 1.1 }}
-      />
-      <motion.div
-        style={{ x, textAlign: "center" }}
         dragConstraints={{ left: 0, right: 0 }}
         onDragEnd={() => {
           if (x.current > 25) {
@@ -37,8 +36,8 @@ const Drag = ({ img, handleLike, handleDislike }) => {
             handleDislike();
           }
         }}
-        drag="x"
-      >
+      />
+      <motion.div style={{ x, textAlign: "center" }} drag="x">
         <svg viewBox="-15 -15 50 50">
           <motion.path
             fill="darkGreen"
@@ -56,7 +55,7 @@ const Drag = ({ img, handleLike, handleDislike }) => {
           />
         </svg>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 export default Drag;
