@@ -1,34 +1,44 @@
-import React, { useRef } from "react";
+import React from "react";
+import { styled, keyframes } from "../../stitches.config";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
 const Drag = ({ img, handleLike, handleDislike }) => {
   const x = useMotionValue(0);
   const like = useTransform(x, [10, 100], [0, 1]);
   const dislike = useTransform(x, [-10, -100], [0, 1]);
+  const Wrapper = styled("div", {
+    // background: "$green500",
+    width: "200px",
+    height: "250px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "80px",
+    textShadow: "0 10px 10px #d1d5db",
+    boxShadow: "0 0 20px rgba(0, 0, 0, 0.15)",
+    borderRadius: "8px",
+    transform: `rotate(${Math.random() * (5 - -5) + -5}deg)`,
+  });
+  const Item = styled(motion.div, {
+    position: "absolute",
+    background: `url(${img})`,
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "initial",
+    backgroundSize: "cover",
+    width: "100%",
+    height: "100%",
+  });
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "50vh",
-        cursor: "move",
-      }}
-    >
-      <motion.img
-        style={{
-          x,
-          maxWidth: "80%",
-          maxHeight: "50%",
-          margin: "auto",
-          display: "block",
-          position: "absolute",
-        }}
-        src={img}
+    <Wrapper>
+      <Item
+        style={{ x }}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 1.1 }}
         onDragEnd={() => {
+          console.log(x.current);
           if (x.current > 25) {
             handleLike();
           }
@@ -36,26 +46,41 @@ const Drag = ({ img, handleLike, handleDislike }) => {
             handleDislike();
           }
         }}
-      />
-      <motion.div style={{ x, textAlign: "center" }} drag="x">
-        <svg viewBox="-15 -15 50 50">
-          <motion.path
-            fill="darkGreen"
-            stroke="green"
-            d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"
-            strokeDasharray="0 1"
-            style={{ pathLength: like, opacity: like }}
-          />
-          <motion.path
-            fill="darkRed"
-            stroke="red"
-            d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"
-            strokeDasharray="0 1"
-            style={{ pathLength: dislike, opacity: dislike }}
-          />
-        </svg>
-      </motion.div>
-    </div>
+      >
+        <motion.span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <motion.h1
+            style={{
+              opacity: like,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              transform: "translateY(-50%)",
+            }}
+          >
+            👍
+          </motion.h1>
+          <motion.h1
+            style={{
+              opacity: dislike,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              transform: "translateY(-50%)",
+            }}
+          >
+            👎
+          </motion.h1>
+        </motion.span>
+      </Item>
+    </Wrapper>
   );
 };
+
 export default Drag;
