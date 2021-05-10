@@ -13,8 +13,12 @@ const queryClient = new QueryClient();
 const globalStyles = global({
   body: {
     margin: 0,
-    backgroundColor: "$grey800",
+    padding: 0,
     color: "$grey100",
+    backgroundColor: "$grey800",
+    "@md": {
+      backgroundColor: "$light",
+    },
     fontFamily: "$mono",
   },
 });

@@ -7,7 +7,6 @@ const Drag = ({ img, handleLike, handleDislike }) => {
   const like = useTransform(x, [10, 100], [0, 1]);
   const dislike = useTransform(x, [-10, -100], [0, 1]);
   const Wrapper = styled("div", {
-    // background: "$green500",
     width: "200px",
     height: "250px",
     display: "flex",
@@ -18,6 +17,7 @@ const Drag = ({ img, handleLike, handleDislike }) => {
     boxShadow: "0 0 20px rgba(0, 0, 0, 0.15)",
     borderRadius: "8px",
     transform: `rotate(${Math.random() * (5 - -5) + -5}deg)`,
+    backgroundColor: "$grey100",
   });
   const Item = styled(motion.div, {
     position: "absolute",
@@ -25,8 +25,9 @@ const Drag = ({ img, handleLike, handleDislike }) => {
     backgroundRepeat: "no-repeat",
     backgroundAttachment: "initial",
     backgroundSize: "cover",
-    width: "100%",
-    height: "100%",
+    boxShadow: "0 0 20px rgba(0, 0, 0, 0.25)",
+    width: "90%",
+    height: "90%",
   });
 
   return (
@@ -36,7 +37,7 @@ const Drag = ({ img, handleLike, handleDislike }) => {
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 1.1 }}
+        whileTap={{ scale: 1.2 }}
         onDragEnd={() => {
           console.log(x.current);
           if (x.current > 25) {

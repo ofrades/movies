@@ -35,12 +35,10 @@ export const Container = styled("div", {
   },
   "@md": {
     justifyContent: "center",
-    backgroundColor: "$light",
-    padding: "4rem",
   },
   alignItems: "center",
   height: "100%",
-  minHeight: "100%",
+  minHeight: "100vh",
 });
 
 export const Card = styled(motion.div, {
