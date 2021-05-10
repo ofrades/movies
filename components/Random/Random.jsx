@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { getRandomMovies } from "../../services/getRandomMovies";
 import { useDispatch, useSelector } from "react-redux";
-import { addLike } from "../Likes/likesSlice";
-import { addDislike } from "../Dislikes/dislikesSlice";
+import { addLike, removeLike } from "../Likes/likesSlice";
+import { addDislike, removeDislike } from "../Dislikes/dislikesSlice";
 import { setMovie } from "../Search/movieSlice";
 import { Status, Container } from "./styles";
 import Loading from "../Loading";
@@ -31,16 +31,24 @@ const Random = () => {
   );
   const handleLike = () => {
     setId(Math.floor(Math.random() * 1000));
-    if (!inLikes && !inDislikes) {
-      dispatch(addLike(movie));
+    if (inDislikes) {
+      dispatch(removeDislike(movie));
     }
+    if (inLikes) {
+      return;
+    }
+    dispatch(addLike(movie));
   };
 
   const handleDislike = () => {
     setId(Math.floor(Math.random() * 1000));
-    if (!inLikes && !inDislikes) {
-      dispatch(addDislike(movie));
+    if (inLikes) {
+      dispatch(removeLike(movie));
     }
+    if (inDislikes) {
+      return;
+    }
+    dispatch(addDislike(movie));
   };
 
   return (
