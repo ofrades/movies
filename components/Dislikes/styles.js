@@ -9,7 +9,7 @@ export const Card = styled("card", {
   border: "none",
   borderRadius: "$2",
   display: "grid",
-  justifyContent: "space-evenly",
+  justifyContent: "center",
   alignItems: "center",
   gridTemplateAreas: "'title title' 'poster poster' 'remove remove'",
 
